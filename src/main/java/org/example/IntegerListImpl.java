@@ -78,7 +78,7 @@ public class IntegerListImpl implements IntegerList{
 
     @Override
     public boolean contains(Integer item) {
-        return indexOf(item) > - 1;
+        return contains(integerList, item, this.size);
     }
 
     @Override
@@ -88,6 +88,14 @@ public class IntegerListImpl implements IntegerList{
                 return i;
         }
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return "IntegerListImpl{" +
+                "integerList=" + Arrays.toString(integerList) +
+                ", size=" + size +
+                '}';
     }
 
     @Override
@@ -145,4 +153,67 @@ public class IntegerListImpl implements IntegerList{
             throw new InvalidIndexException("Index is incorrect");
     }
 
+    private static void swapElements(Integer[] arr, int indexA, int indexB) {
+        int tmp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = tmp;
+    }
+
+    public void sortBubble() {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1 - i; j++) {
+                if (integerList[j] > integerList[j + 1]) {
+                    swapElements(integerList, j, j + 1);
+                }
+            }
+        }
+    }
+
+    public  void sortSelection() {
+        for (int i = 0; i < size - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < size; j++) {
+                if (integerList[j] < integerList[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(integerList, i, minElementIndex);
+        }
+    }
+
+    public void sortInsertion() {
+        sortSelection(integerList, this.size);
+    }
+
+    private boolean contains(Integer[] arr, int element, int size) {
+        int min = 0;
+        int max = size - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (element == arr[mid]) {
+                return true;
+            }
+
+            if (element < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
+    }
+
+    private void sortSelection(Integer[] arr, int size) {
+        for (int i = 0; i < size - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < size; j++) {
+                if (arr[j] < arr[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(arr, i, minElementIndex);
+        }
+    }
 }
