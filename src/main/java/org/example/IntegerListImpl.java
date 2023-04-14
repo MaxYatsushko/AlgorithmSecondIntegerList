@@ -69,9 +69,10 @@ public class IntegerListImpl implements IntegerList{
         validateIndex(index);
 
         Integer item = integerList[index];
-        if (index != size)
+        if ((index != size) && (index != size - 1))
             System.arraycopy(integerList, index + 1, integerList, index, size - index);
-
+        else if (index == size - 1)
+               System.arraycopy(integerList, 0, integerList, size - 2 , size - 1);
         size--;
         return item;
     }
@@ -186,6 +187,7 @@ public class IntegerListImpl implements IntegerList{
     }
 
     private boolean contains(Integer[] arr, int element, int size) {
+        sortSelection(arr, size);
         int min = 0;
         int max = size - 1;
 
